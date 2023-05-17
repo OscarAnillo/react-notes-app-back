@@ -9,8 +9,13 @@ router.get("/", async (req, res) => {
 
 // Create a note
 router.post("/",  async (req, res) => {
-    const newNote = new Note(req.body) ;
+    const body = req.body;
+    
     try {
+        const newNote = new Note({
+            note: req.body.note,
+            date: new Date().toISOString()
+        }) 
         const saveNote = await newNote.save()
         res.status(200).json(saveNote)
     } catch (err) {
@@ -24,7 +29,7 @@ router.delete("/:id", async (req, res) => {
         const deleteNote =  await Note.findById(req.params.id);
         deleteNote.deleteOne();
         res.status(200).json("The note was deleted");
-    } catch(err) {
+    } catch (err) {
         res.status(500).json(err)
     }
 });
