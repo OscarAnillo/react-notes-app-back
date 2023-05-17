@@ -18,15 +18,15 @@ router.post("/",  async (req, res) => {
     }
 })
 
-//Delete a note
+// Delete a note
 router.delete("/:id", async (req, res) => {
-    const deleteNote =  await Note.findById(req.params.id);
-    if(deleteNote) {
-        await Note.deleteOne()
-        res.status(200).json("The note was deleted")
-    } else {
-        res.status(403).json("There was an error!")
+    try {
+        const deleteNote =  await Note.findById(req.params.id);
+        deleteNote.deleteOne();
+        res.status(200).json("The note was deleted");
+    } catch(err) {
+        res.status(500).json(err)
     }
-})
+});
 
 module.exports = router;
