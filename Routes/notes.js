@@ -14,7 +14,7 @@ router.post("/",  async (req, res) => {
     try {
         const newNote = new Note({
             note: req.body.note,
-            date: new Date().toISOString()
+            date: new Date().toLocaleTimeString()
         }) 
         const saveNote = await newNote.save()
         res.status(200).json(saveNote)
